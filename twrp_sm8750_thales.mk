@@ -14,7 +14,9 @@
 #   variant "android_common": [service-crashrecovery] in contents must also be
 #   declared in PRODUCT_APEX_SYSTEM_SERVER_JARS
 # Recovery has no system server, so this list would otherwise stay empty.
-PRODUCT_APEX_SYSTEM_SERVER_JARS += service-crashrecovery
+# Soong requires the "<apex>:<jar>" pair format (NOT just the jar name); the
+# apex module name for CrashRecovery is "com.android.crashrecovery".
+PRODUCT_APEX_SYSTEM_SERVER_JARS += com.android.crashrecovery:service-crashrecovery
 
 PRODUCT_PLATFORM := xiaomi_sm8750
 DEVICE_PATH := device/xiaomi/sm8750_thales
