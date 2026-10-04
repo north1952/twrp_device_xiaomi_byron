@@ -4,7 +4,7 @@ Prebuilt blobs for the Xiaomi 17 Max (byron) recovery build.
 | -------------------------- | ---------- | ------------------------------------------------------------- |
 | `Image`                    | 21,339,168 | byron `boot.img` — ARM64 kernel, raw (`0x644d5241` @ offset 56) |
 | `dtb.img`                  | 20,237,792 | byron `boot.img` — `kernel_dtb` (FDT `d00dfeed`)                |
-| `dlkm/msm_drm.ko`          | 6,594,608  | **placeholder**, carries over from the popsicle tree           |
+| `dlkm/msm_drm.ko`          | 6,855,496  | byron `vendor_boot.img` vendor ramdisk (`lib/modules/msm_drm.ko`) |
 | `hostfs_tool`              | 7,747,096  | carries over from the popsicle tree                            |
 
 Kernel identification string:
@@ -24,6 +24,11 @@ Sources of the originals on the build host:
   -> `magiskboot unpack` -> `kernel` (= `prebuilt/Image`)
                           -> `kernel_dtb` (= `prebuilt/dtb.img`)
 
-TODO — `dlkm/msm_drm.ko` still needs to be replaced with byron's own module,
-extracted from `vendor_boot.img` (vendor ramdisk) or the `vendor_dlkm`
-partition of byron's firmware package.
+`dlkm/msm_drm.ko` has been replaced with byron's own module, extracted from the
+`vendor_boot` partition of the official Android 17 (SDK 37) OTA package
+(`byron-ota_full-OS4.0.0.22.XAFCNXM-user-17.0-*.zip`, `post-sdk-level=37`,
+`pre-device=byron`) with `payload-dumper-go`. md5 `2218a6b580709687b5018c7c19d77b93`.
+
+Touch / NFC / haptics modules listed in `TW_LOAD_VENDOR_MODULES` are **not**
+bundled here (matching the upstream tree's design) — TWRP loads those from the
+device's own vendor / vendor_dlkm partition at runtime.
