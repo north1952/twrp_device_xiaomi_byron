@@ -1,0 +1,8 @@
+on property:sys.boot_completed=1
+    start odm.kernel-post-boot
+
+service odm.kernel-post-boot /system/bin/sh -c /odm/bin/init.kernel.post_boot-canoe_default_6_2.sh
+    user root
+    group root
+    oneshot
+    seclabel u:r:recovery:s0

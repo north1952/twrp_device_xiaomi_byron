@@ -1,0 +1,3 @@
+# Store bytes exactly as-is: an Android device tree must keep LF on mk/rc/sh
+# and must never have CRLF injected into binaries.
+* -text

@@ -1,0 +1,6 @@
+service odm.keymint-strongbox-nxp /odm/bin/hw/android.hardware.security.keymint3-service.strongbox.nxp
+    class early_hal
+    user root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/sbin:/odm/lib64
+    disabled
+    seclabel u:r:recovery:s0
