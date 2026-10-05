@@ -33,7 +33,18 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/system/bin
 LOCAL_MODULE_STEM := hostfs_tool
 LOCAL_SRC_FILES := prebuilt/hostfs_tool
-LOCAL_SHARED_LIBRARIES := libandroid libbinder_ndk liblog
+# V10: intentionally NO LOCAL_SHARED_LIBRARIES here.
+# hostfs_tool is a PREBUILT: its DT_NEEDED is baked into the binary, and the
+# recovery ramdisk never shipped libandroid/libbinder_ndk anyway
+# (RECOVERY_LIBRARY_SOURCE_FILES never included them), so the declaration had
+# zero runtime effect. What it DID do is make this prebuilt depend on the CORE
+# variants of libandroid/libbinder_ndk, whose transitive closure drags the
+# whole framework NDK stack - frameworks/av included (libmedia ->
+# libmedia_codeclist_capabilities -> fatal error: 'system/audio.h' file not
+# found) and the LLNDK ABI checks (V8's libbinder_ndk.so.llndk.abidiff) - into
+# `make recoveryimage`, blowing it up from ~2k to ~30k targets. Peer device
+# trees (YuKongA/twrp_device_xiaomi_sm8850, same twrp-16.0 manifest) build
+# recovery.img cleanly without such a declaration.
 LOCAL_STRIP_MODULE := false
 include $(BUILD_PREBUILT)
 endif
